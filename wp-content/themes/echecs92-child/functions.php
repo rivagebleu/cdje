@@ -1498,7 +1498,7 @@ add_action('init', function () {
     add_rewrite_rule('^tournois-france/?$', 'index.php?pagename=tournois', 'top');
     add_rewrite_rule('^tournoi/([0-9]+)/?$', 'index.php?pagename=tournoi&tournoi_ref=$matches[1]', 'top');
 
-    $rewrite_version = '2026-02-16';
+    $rewrite_version = '2026-07-04-confidentialite';
     if (get_option('cdje92_rewrite_rules_version') !== $rewrite_version) {
         flush_rewrite_rules(false);
         update_option('cdje92_rewrite_rules_version', $rewrite_version);
@@ -1531,6 +1531,10 @@ add_action('init', function () {
             'slug' => 'tournoi',
             'title' => 'Fiche tournoi',
         ],
+        [
+            'slug' => 'confidentialite',
+            'title' => 'Politique de confidentialité',
+        ],
     ];
 
     foreach ($pages as $page) {
@@ -1561,7 +1565,25 @@ add_action('init', function () {
             'ping_status' => 'closed',
         ], true);
     }
+
+    $privacy_page = get_page_by_path('confidentialite', OBJECT, 'page');
+    if ($privacy_page instanceof WP_Post) {
+        update_option('wp_page_for_privacy_policy', (int) $privacy_page->ID);
+    }
 }, 12);
+
+add_action('template_redirect', function () {
+    if (! is_page('politique-confidentialite')) {
+        return;
+    }
+
+    if (! get_page_by_path('confidentialite', OBJECT, 'page')) {
+        return;
+    }
+
+    wp_safe_redirect(home_url('/confidentialite/'), 301);
+    exit;
+}, 0);
 
 /* ---------- FFE Player Extras (server-side proxy) ---------- */
 

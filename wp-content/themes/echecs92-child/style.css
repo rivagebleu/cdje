@@ -3769,6 +3769,7 @@ a.news-simple-card__more:focus-visible{
 
 /* Fallback: styles si WP sert le contenu par défaut au lieu de notre template fichier */
 .page-slug-mentions-legales .wp-block-post-content,
+.page-slug-confidentialite .wp-block-post-content,
 .page-slug-politique-confidentialite .wp-block-post-content{
   font-family: system-ui,-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",Arial,sans-serif;
   color:#1e293b;
